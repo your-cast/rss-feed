@@ -1,0 +1,23 @@
+management:
+  security:
+    role: ADMIN
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+
+spring:
+  security:
+    user:
+      name: admin1
+      password: admin1
+      roles: ADMIN
