@@ -1,9 +1,7 @@
 package com.yourcast.feed.controller;
 
-import com.yourcast.feed.models.dto.ArrestedDto;
-import com.yourcast.feed.models.response.ArrestedResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.yourcast.feed.services.ArrestedServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,18 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
+import com.yourcast.feed.models.FeedResponse;
 
 import javax.validation.Valid;
 
-@AllArgsConstructor
 @Slf4j
-@RestController(value = "Arrested account")
-@RequestMapping("/api/v1/arrests")
-public class ArrestedController {
-    private final ArrestedServiceImpl arrestedService;
-
-    @Operation(method = "findByIban", description = "Method to check arrested a account by IBAN", tags = {"Arrested"})
+@AllArgsConstructor
+@RestController(value = "RSS Feed Controller")
+@RequestMapping("/api/v1/feed")
+public class FeedController {
+    @Operation(method = "generateByToken", description = "Method to check arrested a account by IBAN", tags = {"Feed"})
     @ApiResponses(value = {
         @ApiResponse(description = "IBAN not found.", responseCode = "404", content = {
                 @Content(mediaType = "application/json")
@@ -38,34 +34,31 @@ public class ArrestedController {
         @ApiResponse(description = "IBAN found.", responseCode = "200", content = {
             @Content(
                 mediaType = "application/json",
-                schema = @Schema(implementation = ArrestedResponse.class)
+                schema = @Schema(implementation = FeedResponse.class)
             )
         }),
         @ApiResponse(description = "Unknown Error.", responseCode = "500", content = {
                 @Content(mediaType = "application/json")
         })
     })
-    @GetMapping(value = "/{iban}")
-    public ResponseEntity<?> findByIban(
+    @GetMapping(value = "/{token}")
+    public ResponseEntity<?> generateByToken(
         @Valid
-        @Parameter(name = "iban", in = ParameterIn.PATH, required = true, description = "IBAN to search for")
-        @PathVariable(value = "iban") String iban
+        @Parameter(name = "token", in = ParameterIn.PATH, required = true, description = "token for generate")
+        @PathVariable(value = "token") String token
     ) {
-        LOG.info("[CONTROLLER] search by IBAN: {}", iban);
+        LOG.info("Generate feed by token: {}", token);
         try {
-            ArrestedDto arrested = arrestedService.findByIban(iban);
-
-            if (arrested == null) {
-                LOG.info("[CONTROLLER] IBAN not found: {}" + iban);
+            if (token == null) {
                 return ResponseEntity.notFound().build();
             }
 
-            ArrestedResponse response = new ArrestedResponse();
-            response.setArrested(arrested.isActive());
+            FeedResponse response = new FeedResponse();
+            response.setToken(token);
 
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            LOG.info("[CONTROLLER] exception: {}", e.getMessage());
+        } catch (Exception exception) {
+            LOG.error("Exception: {}", exception.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
