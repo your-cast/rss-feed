@@ -22,12 +22,6 @@ Project Lombok is a java library that automatically plugs into your editor and b
 
 [Check documentation](https://projectlombok.org)
 
-### Spring Cloud Gateway
-Library for building an API Gateway on top of Spring WebFlux.
-Spring Cloud Gateway aims to provide a simple, yet effective way to route to APIs and provide cross cutting concerns to them such as: security, monitoring/metrics, and resiliency.
-
-[Check documentation](https://spring.io/projects/spring-cloud-gateway)
-
 ### netty.io
 Netty is a NIO client server framework which enables quick and easy development of network applications such as protocol servers and clients.
 It greatly simplifies and streamlines network programming such as TCP and UDP socket server.
