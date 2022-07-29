@@ -1,40 +1,11 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: your-cast-feed-service
   main:
     banner-mode: off
-
-  ## DB config ##
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/feed"
-    username:
-    password:
-    hikari:
-      auto-commit: false
-      minimum-idle: 1
-      maximum-pool-size: 10
-      connection-test-query: SELECT 1
-      data-source-properties:
-        cacheServerConfiguration: true
-      pool-name: arrest-acoount-db-pool
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    generate-ddl: false
-    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        order_inserts: true
-        order_updates: true
-        batch_versioned_data: true
-        jdbc:
-          batch_size: 20
-          use_streams_for_binary: true
-    open-in-view: false
-
-  ## flyway config ##
-  flyway:
-    enabled: true
 
 ## Logging setting ##
 logging:

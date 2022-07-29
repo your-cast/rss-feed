@@ -47,7 +47,6 @@ public class FeedController {
         @Parameter(name = "token", in = ParameterIn.PATH, required = true, description = "token for generate")
         @PathVariable(value = "token") String token
     ) {
-        LOG.info("Generate feed by token: {}", token);
         try {
             if (token == null) {
                 return ResponseEntity.notFound().build();
@@ -58,7 +57,6 @@ public class FeedController {
 
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
-            LOG.error("Exception: {}", exception.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
